@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 from app.db.connection import Base, engine
 from app.db import models
+from app.api import auth
 
 Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
+app.include_router(auth.router)
 
 @app.get("/")
 async def root():
