@@ -7,6 +7,7 @@ from app.db.models import User
 
 def get_session_local():
     """Get a database session using the SessionLocal dependency."""
+    """db is the object created from the class(variable) SessionLocal in order to talk to db"""
     db = SessionLocal()
     try:
         yield db
@@ -17,6 +18,7 @@ def get_session_local():
 def get_user(db, username: str):
     """find user by username"""
     return db.query(User).filter(User.username == username).first()
+
 
 def authenticate_user(db: Session, username: str, password: str):
     user = get_user(db, username)
