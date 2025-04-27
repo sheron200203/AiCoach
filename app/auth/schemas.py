@@ -1,7 +1,9 @@
-from pydantic import BaseModel
+
+from pydantic import BaseModel #Pydantic is a Python library used for data validation and data parsing
 from typing import Optional
 
 
+"""structured, validate user input """
 class User(BaseModel):
     username: str
     email: Optional[str] = None
