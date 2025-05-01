@@ -20,6 +20,8 @@ router = APIRouter(
 def chat_endpoint(request: ChatRequest,
                   current_user: User = Depends(get_current_user),
                   db: Session = Depends(get_session_local),):
+    """ Process a user chat request, create a conversation if needed, and return the bot's reply. """
+
     conversation_id = request.conversation_id
 
     # If no conversation_id, create a new conversation
@@ -45,6 +47,8 @@ def chat_endpoint(request: ChatRequest,
 
 @router.get("/conversations", response_model=List[ChatConversation])
 def list_conversations(db: Session = Depends(get_session_local),current_user: User = Depends(get_current_user)):
+    """ Retrieve all chat conversations for the currently authenticated user,sorted from newest to oldest."""
+
     conversations = (
         db.query(Conversation)
         .filter(Conversation.user_id == current_user.id)
