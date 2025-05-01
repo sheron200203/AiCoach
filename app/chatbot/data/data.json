@@ -1,0 +1,50 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": ["Hello", "Hi", "Hey", "Good morning", "What's up?", "Greetings!", "Howdy!", "Hey there!", "Good day!", "How are you?", "Nice to meet you"],
+      "responses": ["Hello! How can I assist you?", "Hi there!", "Hey! How's it going?"]
+    },
+    {
+      "tag": "register",
+      "patterns": ["I want to sign up", "How do I register?", "Can I join?", "member", "signup", "register", "join"],
+      "responses": ["Would you like to register? Please provide your name."]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["Bye", "Goodbye", "See you later"],
+      "responses": ["Goodbye! Have a great day.", "See you next time!"]
+    },
+    {
+      "tag": "thanks",
+      "patterns": ["Thanks", "Thank you", "I appreciate it"],
+      "responses": ["You're welcome!", "No problem!"]
+    },
+    {
+      "tag": "agree",
+      "patterns": ["yes", "yea", "confirm", "sure", "definitely", "okay", "alright", "of course"],
+      "responses": ["alright", "Got it!", "Sure thing!", "Great!"]
+    },
+    {
+      "tag": "disagree",
+      "patterns": ["no", "not now", "later", "not yet", "maybe another time", "not interested"],
+      "responses": ["alright", "No problem!", "Understood", "Okay, let me know if you change your mind."]
+    },
+    {
+      "tag": "bmi",
+      "patterns": ["check my bmi", "am i fat?", "am i too thin?", "what's my bmi", "calculate my bmi", "bmi check", "help me with bmi", "can you tell my bmi", "what is my body mass index", "how is my bmi", "bmi test", "how to check bmi"],
+      "responses": ["sure "]
+    },
+    {
+      "tag": "workout_plan",
+      "patterns": [
+        "workout plan", "plan","give me a workout plan", "suggest a workout routine", "help me with exercise", "recommend a workout", "I need a fitness plan","custom workout plan", "best workout for me", "suggest exercises", "what exercises should I do", "workout routine for me"
+      ],
+      "responses": [
+        "Sure! What are your fitness goals? (e.g., weight loss, muscle gain, endurance)",
+        "I'd be happy to help! Do you prefer home workouts or gym workouts?",
+        "Tell me about your fitness level (beginner, intermediate, advanced) so I can suggest the best plan."
+      ]
+    }
+  ]
+}
