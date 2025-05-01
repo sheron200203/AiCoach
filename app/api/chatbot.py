@@ -61,6 +61,8 @@ def list_conversations(db: Session = Depends(get_session_local),current_user: Us
 @router.get("/conversation/{conversation_id}", response_model=List[ChatMessage])
 def get_conversation(conversation_id: int, db: Session = Depends(get_session_local),
                      current_user: User = Depends(get_current_user)):
+    """ Retrieve messages for a conversation, ordered by timestamp, and format them as ChatMessage objects."""
+
     messages = (
         db.query(MessageHistory)
         .filter(MessageHistory.conversation_id == conversation_id)
