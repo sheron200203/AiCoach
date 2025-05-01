@@ -10,6 +10,13 @@ from typing import Annotated
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 
+def get_session_local():
+    """create db connection (session) using the SessionLocal dependency."""
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 def get_user(db, username: str):
     return db.query(User).filter(User.username == username).first()
@@ -24,13 +31,7 @@ def authenticate_user(db: Session, username: str, password: str):
     return user
 
 
-def get_session_local():
-    """Get a database session using the SessionLocal dependency."""
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+
 
 
 def get_current_user(

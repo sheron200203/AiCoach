@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from app.chatbot.engine import get_similar_response
 from app.chatbot.schemas import ChatResponse, ChatRequest
 from app.db.models import Conversation
+from app.chatbot.schemas import ChatConversation
 
 router = APIRouter(
     prefix="/chatbot",
@@ -39,3 +40,15 @@ def chat_endpoint(request: ChatRequest,
         "reply": reply,
         "conversation_id": conversation_id
     }
+
+
+
+@router.get("/conversations", response_model=List[ChatConversation])
+def list_conversations(db: Session = Depends(get_session_local),current_user: User = Depends(get_current_user)):
+    conversations = (
+        db.query(Conversation)
+        .filter(Conversation.user_id == current_user.id)
+        .order_by(Conversation.created_at.desc())
+        .all()
+    )
+    return conversations
