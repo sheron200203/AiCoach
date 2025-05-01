@@ -1,6 +1,10 @@
 """schema.py : contains all the models/classes for data validation,structure"""
+
 from pydantic import BaseModel
 from typing import Optional, Literal
+from datetime import datetime
+
+
 
 class ChatRequest(BaseModel):
     """validate user input"""
@@ -18,6 +22,15 @@ class ChatResponse(BaseModel):
 class ChatConversation(BaseModel):
     id: int
     title: str
+
+    class Config:
+        orm_mode = True
+
+
+class ChatMessage(BaseModel):
+    text: str
+    sender: Literal["user", "bot"]
+    timestamp: datetime
 
     class Config:
         orm_mode = True
