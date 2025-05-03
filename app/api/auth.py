@@ -1,4 +1,3 @@
-
 from fastapi import Depends, HTTPException, status, APIRouter, Request, Depends, HTTPException, Body, Response
 from starlette.responses import JSONResponse
 
@@ -49,8 +48,6 @@ async def login_for_access_token(
         "refresh_token": refresh_token # for mobile clients
     }
 
-
-
 @router.post("/refresh")
 async def refresh_token(
     request: Request,
@@ -96,3 +93,16 @@ async def refresh_token(
 @router.get("/users/me", response_model=User)
 async def read_users_me(current_user: User = Depends(get_current_user)):
     return current_user
+
+
+@router.post("/logout")
+async def logout_user(response: Response):
+    # Clear the refresh token cookie
+    response.delete_cookie(
+        key="refresh_token",
+        httponly=True,
+        secure=True,
+        samesite="none"
+    )
+
+    return {"message": "Successfully logged out"}
