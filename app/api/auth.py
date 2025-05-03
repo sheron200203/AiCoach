@@ -1,10 +1,10 @@
 
-from fastapi import Depends, HTTPException, status, APIRouter
+from fastapi import  status, APIRouter, Depends, HTTPException, Response
 from app.auth.dependencies import authenticate_user, get_session_local
-from app.auth.schemas import User, Token
+from app.auth.schemas import Token
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from app.auth.utils import create_access_token
+from app.auth.utils import create_access_token, create_refresh_token
 
 router = APIRouter(
     prefix="/auth",
@@ -12,8 +12,11 @@ router = APIRouter(
 )
 
 
-@router.post("/token",response_model=Token)
+
+"""login endpoint"""
+@router.post("/token", response_model=Token)
 async def login_for_access_token(
+        response: Response,
         form_data: OAuth2PasswordRequestForm = Depends(),
         db: Session = Depends(get_session_local)
 ):
@@ -23,10 +26,23 @@ async def login_for_access_token(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
-
         )
-    token = create_access_token(data={"sub": user.username})
-    return{
-     "access_token":token, "token_type":"bearer"
-    }
 
+    access_token = create_access_token(data={"sub": user.username})
+    refresh_token = create_refresh_token(data={"sub": user.username})
+
+    # Set refresh token as HttpOnly cookie
+    response.set_cookie(
+        key="refresh_token",
+        value=refresh_token,
+        httponly=True,
+        secure=True,
+        samesite="none",         # or strict "lax"
+        max_age=60 * 60 * 24 * 7
+    )
+
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "refresh_token": refresh_token # for mobile clients
+    }
