@@ -100,4 +100,27 @@ with open("data/wiki_sentences.json", "w") as f:
 with open("data/wiki_embeddings.pkl", "wb") as f:
     pickle.dump(wiki_embeddings, f)
 
+
+# Exercises KB
+with open("data/exercises.json", "r") as f:
+    exercises = json.load(f)["exercises"]
+
+exercise_sentences = []
+exercise_lookup = []
+
+for ex in exercises:
+    sentence = f"{ex['name']} targets {', '.join(ex['primaryMuscles'])}. Category: {ex['category']}."
+    exercise_sentences.append(sentence)
+    exercise_lookup.append(ex)
+
+exercise_embeddings = sbert_model.encode(exercise_sentences)
+with open("data/exercise_sentences.json", "w") as f:
+    json.dump(exercise_sentences, f, ensure_ascii=False, indent=2)
+
+with open("data/exercise_embeddings.pkl", "wb") as f:
+    pickle.dump(exercise_embeddings, f)
+
+with open("data/exercise_lookup.pkl", "wb") as f:
+    pickle.dump(exercise_lookup, f)
+
 print("AI Training completed")
